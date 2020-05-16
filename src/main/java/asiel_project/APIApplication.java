@@ -1,5 +1,8 @@
 package asiel_project;
 
+import asiel_project.endpoints.DierResource;
+import asiel_project.endpoints.VerblijfResource;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
