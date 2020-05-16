@@ -25,8 +25,8 @@ public class DierResource {
 
         entityManager.getTransaction().begin();
         Dier dier = new Dier();
-        dier.setSoort("konijn");
-        dier.setNaam("stampertje");
+        dier.setSoort("lisa");
+        dier.setNaam("marie");
 
 
         entityManager.persist(dier);
@@ -34,8 +34,7 @@ public class DierResource {
         entityManager.getTransaction().commit();
 
         entityManager.close();
-//        hiermee gooi je de table direct weg
-//        factory.close();
+        factory.close();
 
         List<Dier> lijstMetDIeren = new ArrayList<>();
         lijstMetDIeren.add( new Dier(1, "Meneertje", "Dikke Kater"));

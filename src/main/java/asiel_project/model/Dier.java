@@ -9,6 +9,9 @@ import java.time.LocalDate;
 
 @Entity
 @Table
+@NamedQueries({
+        @NamedQuery(name = "Dier.findAll", query = "SELECT t FROM Dier t")
+})
 public class Dier implements Serializable {
 
     @Id

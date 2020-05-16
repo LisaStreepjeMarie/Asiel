@@ -11,6 +11,17 @@
 
 <dependencies>
     <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>jakarta.ejb</groupId>
+        <artifactId>jakarta.ejb-api</artifactId>
+        <version>4.0.0-RC1</version>
+    </dependency>
+    <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jaxrs</artifactId>
         <version>3.6.2.Final</version>
