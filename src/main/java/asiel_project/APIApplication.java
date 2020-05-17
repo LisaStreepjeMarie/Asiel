@@ -2,6 +2,7 @@ package asiel_project;
 
 import asiel_project.endpoints.DierResource;
 import asiel_project.endpoints.VerblijfResource;
+import asiel_project.service.AccessControlResponseFilter;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -15,6 +16,7 @@ public class APIApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<>();
         set.add( DierResource.class );
+        set.add(AccessControlResponseFilter.class);
         set.add( VerblijfResource.class );
         return set;
     }

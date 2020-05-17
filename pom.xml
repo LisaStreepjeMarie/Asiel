@@ -15,11 +15,11 @@
         <artifactId>javax.inject</artifactId>
         <version>1</version>
     </dependency>
-
     <dependency>
-        <groupId>jakarta.ejb</groupId>
-        <artifactId>jakarta.ejb-api</artifactId>
-        <version>4.0.0-RC1</version>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+        <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>org.jboss.resteasy</groupId>
