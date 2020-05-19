@@ -25,12 +25,12 @@ public class Dier implements Serializable {
     @NotNull
     private String soort;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     private Verblijf verblijf;
 
-    private LocalDate datumErin;
+    private String datumErin;
 
-    private LocalDate datumBuiten;
+    private String datumBuiten;
 
     public Dier() {
         // needed for EJB
@@ -39,7 +39,7 @@ public class Dier implements Serializable {
     public Dier(String naam, String soort) {
         this.naam = naam;
         this.soort = soort;
-        this.datumErin = LocalDate.now();
+
     }
 
     public Verblijf getVerblijf() {
@@ -50,19 +50,19 @@ public class Dier implements Serializable {
         this.verblijf = verblijf;
     }
 
-    public LocalDate getDatumErin() {
+    public String getDatumErin() {
         return datumErin;
     }
 
-    public void setDatumErin(LocalDate datumErin) {
+    public void setDatumErin(String datumErin) {
         this.datumErin = datumErin;
     }
 
-    public LocalDate getDatumBuiten() {
+    public String getDatumBuiten() {
         return datumBuiten;
     }
 
-    public void setDatumBuiten(LocalDate datumBuiten) {
+    public void setDatumBuiten(String datumBuiten) {
         this.datumBuiten = datumBuiten;
     }
 

@@ -1,13 +1,15 @@
 package asiel_project.endpoints;
 
+import asiel_project.dao.DierDAO;
+import asiel_project.dao.VerblijfDAO;
 import asiel_project.entity.Verblijf;
 import asiel_project.entity.Dier;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,29 +17,30 @@ import java.util.logging.Logger;
 @Path("/verblijf")
 public class VerblijfResource {
 
-    private Logger logger = Logger.getLogger("verblijfResource");
+    @Inject
+    VerblijfDAO verblijfDAO;
+
+    private Logger logger = Logger.getLogger("DierenResource");
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Verblijf> getVerblijven() {
-        List<Verblijf> lijstMetVerblijven = new ArrayList<>();
-        List<Dier> dierenlijst = new ArrayList<>();
-        dierenlijst.add(new Dier("Meneertje", "Dikke Kater"));
-        Verblijf verblijf = new Verblijf(1, "Paleis", 1);
-        verblijf.setDieren(dierenlijst);
-        lijstMetVerblijven.add( verblijf);
-        lijstMetVerblijven.add( new Verblijf (2, "Plastic tas", 5));
-        return lijstMetVerblijven;
+    public Response ok(){
+        List<Verblijf> result = verblijfDAO.getAll();
+        return Response.ok().entity(result).build();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Verblijf getVerblijf(@PathParam("id") Long id) {
-        List<Dier> dierenlijst = new ArrayList<>();
-        dierenlijst.add(new Dier("Meneertje", "Dikke Kater"));
-        Verblijf verblijf = new Verblijf(1, "Paleis", 1);
-        verblijf.setDieren(dierenlijst);
-        return verblijf;
+    public Response getVerblijf(@PathParam("id") Integer id) {
+        return Response.ok().entity(verblijfDAO.findById(id)).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addContact(@Valid Verblijf verblijf) {
+        verblijfDAO.create(verblijf);
+        return Response.ok().entity(verblijf).build();
     }
 }

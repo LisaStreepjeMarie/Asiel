@@ -5,43 +5,38 @@ import asiel_project.entity.Dier;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Stateless
 public class DierDAO {
 
-//    @PersistenceContext(unitName = "cursus", type = PersistenceContextType.EXTENDED)
-//    private EntityManager entityManager;
-
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("cursus");
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Dier> getAll() {
-        EntityManager em = factory.createEntityManager();
-        List<Dier> lijst = em.createNamedQuery("Dier.findAll", Dier.class).getResultList();
-        em.close();
-        return lijst;
+        return entityManager.createNamedQuery("Dier.findAll", Dier.class).getResultList();
     }
 
     public Dier findById(Integer id) {
-        EntityManager em = factory.createEntityManager();
-        return em.find(Dier.class, id);
+        return entityManager.find(Dier.class, id);
     }
 
     public void update(Dier todo) {
-        EntityManager em = factory.createEntityManager();
-        em.merge(todo);
+        entityManager.merge(todo);
     }
-//
-//    public void create(Dier todo) {
-//        em.persist(todo);
-//    }
-//
-//    public void delete(Dier todo) {
-//        if (!em.contains(todo)) {
-//            todo = em.merge(todo);
-//        }
-//
-//        em.remove(todo);
-//    }
+
+    public void create(Dier nieuwdier) {
+        nieuwdier.setDatumErin(LocalDate.now().toString());
+        entityManager.persist(nieuwdier);
+    }
+
+    public void delete(Dier todo) {
+        if (!entityManager.contains(todo)) {
+            todo = entityManager.merge(todo);
+        }
+
+        entityManager.remove(todo);
+    }
 }
 

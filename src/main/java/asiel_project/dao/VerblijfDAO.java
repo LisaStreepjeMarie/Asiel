@@ -1,55 +1,41 @@
 package asiel_project.dao;
 
+import asiel_project.entity.Dier;
 import asiel_project.entity.Verblijf;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 @Stateless
 public class VerblijfDAO {
 
-//    @PersistenceContext(unitName = "cursus", type = PersistenceContextType.EXTENDED)
-//    private EntityManager entityManager;
-
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("cursus");
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Verblijf> getAll() {
-        EntityManager em = factory.createEntityManager();
-        List<Verblijf> lijst = em.createNamedQuery("Verblijf.findAll", Verblijf.class).getResultList();
-        em.close();
-        return lijst;
+        return entityManager.createNamedQuery("Verblijf.findAll", Verblijf.class).getResultList();
     }
 
     public Verblijf findById(Integer id) {
-        EntityManager em = factory.createEntityManager();
-        Verblijf verblijf = em.find(Verblijf.class, id);
-        em.close();
-        return verblijf;
+        return entityManager.find(Verblijf.class, id);
     }
 
     public void update(Verblijf verblijf) {
-        EntityManager em = factory.createEntityManager();
-        em.merge(verblijf);
-        em.close();
+        entityManager.merge(verblijf);
+
     }
 
     public void create(Verblijf verblijf) {
-        EntityManager entityManager = factory.createEntityManager();
-        entityManager.getTransaction().begin();
+        verblijf.setPlekkenBezet(0);
         entityManager.persist(verblijf);
-        entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
     public void delete(Verblijf verblijf) {
-        EntityManager em = factory.createEntityManager();
-        if (!em.contains(verblijf)) {
-            verblijf = em.merge(verblijf);
+        if (!entityManager.contains(verblijf)) {
+            verblijf = entityManager.merge(verblijf);
         }
-        em.remove(verblijf);
-        em.close();
+        entityManager.remove(verblijf);
+        entityManager.close();
     }
 }

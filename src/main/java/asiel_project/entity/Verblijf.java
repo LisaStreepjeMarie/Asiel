@@ -1,9 +1,12 @@
 package asiel_project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +23,7 @@ public class Verblijf implements Serializable {
     @NotNull @Size(max=25)
     private String naam;
 
+    @JsonIgnore
     @OneToMany(mappedBy="verblijf")
     private List<Dier> dieren;
 
@@ -56,7 +60,7 @@ public class Verblijf implements Serializable {
     }
 
     public void setDieren(List<Dier> dieren) {
-        this.dieren = dieren;
+        this.dieren = new ArrayList<>(dieren);
     }
 
     public Integer getPlekkenTotaal() {
@@ -72,6 +76,6 @@ public class Verblijf implements Serializable {
     }
 
     public void setPlekkenBezet(Integer plekkenBezet) {
-        this.plekkenBezet = plekkenBezet;
+        this.plekkenBezet += plekkenBezet;
     }
 }

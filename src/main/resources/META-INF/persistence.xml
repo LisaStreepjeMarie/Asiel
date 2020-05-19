@@ -3,7 +3,8 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="cursus">
+    <persistence-unit name="cursus" transaction-type="JTA">
+        <jta-data-source>java:/jdbc/datasources/cursusDS</jta-data-source>
 
         <class>asiel_project.entity.Dier</class>
         <class>asiel_project.entity.Verblijf</class>
@@ -20,3 +21,4 @@
     </persistence-unit>
 
 </persistence>
+

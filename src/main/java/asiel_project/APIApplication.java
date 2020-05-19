@@ -16,7 +16,6 @@ public class APIApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<>();
         set.add( DierResource.class );
-        set.add(AccessControlResponseFilter.class);
         set.add( VerblijfResource.class );
         return set;
     }
