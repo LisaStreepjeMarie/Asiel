@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,15 +39,38 @@ public class DierResource {
         return Response.ok().entity(dierDAO.findById(id)).build();
     }
 
+
+    @GET
+    @Path("/{id}/baasje")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response dierBaasje(@PathParam("id") Integer id) {
+        Dier dier = dierDAO.findById(id);
+        dier.setDatumBuiten(LocalDate.now().toString());
+
+        if(dier.getVerblijf() != null) {
+            dier.getVerblijf().setPlekkenBezet(-1);
+            verblijfDAO.update(dier.getVerblijf());
+            dier.setVerblijf(null);
+        }
+
+        dierDAO.update(dier);
+        return Response.ok().entity(dier).build();
+    }
+
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateContact(@PathParam("id") Integer id, Dier c) {
-        Verblijf verblijf = verblijfDAO.findById(id);
-        verblijf.setPlekkenBezet(1);
-        verblijfDAO.update(verblijf);
-        c.setVerblijf(verblijf);
-        dierDAO.update(c);
+
+    verblijfDAO.getAll().stream()
+            .filter(x -> x.getVerblijfId().equals(id))
+            .forEach(x -> {
+                x.setPlekkenBezet(1);
+                c.setVerblijf(x);
+                verblijfDAO.update(x);
+                dierDAO.update(c);
+            });
+
         return Response.ok().build();
     }
 
@@ -54,6 +78,12 @@ public class DierResource {
     @Path("/{id}")
     public Response deleteContact(@PathParam("id") Integer id) {
         Dier dier = dierDAO.findById(id);
+
+        if(dier.getVerblijf() != null){
+            dier.getVerblijf().setPlekkenBezet(-1);
+            verblijfDAO.update(dier.getVerblijf());
+        }
+
         dierDAO.delete(dier);
         return Response.ok().entity(dier).build();
     }

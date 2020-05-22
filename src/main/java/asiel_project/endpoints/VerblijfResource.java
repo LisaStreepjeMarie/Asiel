@@ -11,14 +11,19 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("/verblijf")
 public class VerblijfResource {
 
     @Inject
     VerblijfDAO verblijfDAO;
+
+    @Inject
+    DierDAO dierDAO;
 
     private Logger logger = Logger.getLogger("DierenResource");
 
@@ -42,5 +47,17 @@ public class VerblijfResource {
     public Response addContact(@Valid Verblijf verblijf) {
         verblijfDAO.create(verblijf);
         return Response.ok().entity(verblijf).build();
+    }
+
+    @GET
+    @Path("/{id}/dieren")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDierenVerblijf(@PathParam("id") final Integer id) {
+
+        return Response.ok().entity(dierDAO.getAll().stream()
+                .filter(x -> x.getVerblijf() != null)
+                .filter(x -> x.getVerblijf().getVerblijfId().equals(id))
+                .collect(Collectors.toList()))
+                .build();
     }
 }
