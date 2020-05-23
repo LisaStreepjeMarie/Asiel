@@ -2,9 +2,11 @@ package asiel_project.endpoints;
 
 import asiel_project.dao.DierDAO;
 import asiel_project.dao.VerblijfDAO;
+import asiel_project.dto.VerblijfDTO;
 import asiel_project.entity.Verblijf;
 import asiel_project.entity.Dier;
 import asiel_project.mapper.DierMapper;
+import asiel_project.mapper.VerblijfMapper;
 import org.mapstruct.factory.Mappers;
 
 import javax.inject.Inject;
@@ -21,6 +23,9 @@ import java.util.stream.Collectors;
 @Path("/verblijf")
 public class VerblijfResource {
 
+    private VerblijfMapper verblijfMapper = Mappers.getMapper(VerblijfMapper.class);
+    private DierMapper dierMapper = Mappers.getMapper(DierMapper.class);
+
     @Inject
     VerblijfDAO verblijfDAO;
 
@@ -32,7 +37,12 @@ public class VerblijfResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response ok(){
-        List<Verblijf> result = verblijfDAO.getAll();
+
+        List<VerblijfDTO> result = verblijfDAO.getAll()
+                .stream()
+                .map(x -> verblijfMapper.INSTANCE.toDTO(x))
+                .collect(Collectors.toList());
+
         return Response.ok().entity(result).build();
     }
 
@@ -49,17 +59,5 @@ public class VerblijfResource {
     public Response addContact(@Valid Verblijf verblijf) {
         verblijfDAO.create(verblijf);
         return Response.ok().entity(verblijf).build();
-    }
-
-    @GET
-    @Path("/{id}/dieren")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getDierenVerblijf(@PathParam("id") final Integer id) {
-
-        return Response.ok().entity(dierDAO.getAll().stream()
-                .filter(x -> x.getVerblijf() != null)
-                .filter(x -> x.getVerblijf().getVerblijfId().equals(id))
-                .collect(Collectors.toList()))
-                .build();
     }
 }

@@ -24,8 +24,7 @@ public class Verblijf implements Serializable {
     @NotNull @Size(max=25)
     private String naam;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="verblijf")
+    @OneToMany(mappedBy="verblijf", fetch = FetchType.EAGER)
     private List<Dier> dieren;
 
     private Integer plekkenTotaal;

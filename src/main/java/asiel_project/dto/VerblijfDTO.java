@@ -12,16 +12,15 @@ public class VerblijfDTO implements Serializable {
 
     private String naam;
 
-    private List<Dier> dieren;
+    private List<DierDTO> dieren;
 
     private Integer plekkenTotaal;
 
     private Integer plekkenBezet;
 
-    private Soort verblijfSoort;
+    private String verblijfSoort;
 
-    public VerblijfDTO(Integer verblijfId) {
-        this.verblijfId = verblijfId;
+    public VerblijfDTO() {
     }
 
     public Integer getVerblijfId() {
@@ -40,11 +39,11 @@ public class VerblijfDTO implements Serializable {
         this.naam = naam;
     }
 
-    public List<Dier> getDieren() {
+    public List<DierDTO> getDieren() {
         return dieren;
     }
 
-    public void setDieren(List<Dier> dieren) {
+    public void setDieren(List<DierDTO> dieren) {
         this.dieren = dieren;
     }
 
@@ -64,11 +63,11 @@ public class VerblijfDTO implements Serializable {
         this.plekkenBezet = plekkenBezet;
     }
 
-    public Soort getVerblijfSoort() {
+    public String getVerblijfSoort() {
         return verblijfSoort;
     }
 
-    public void setVerblijfSoort(Soort verblijfSoort) {
+    public void setVerblijfSoort(String verblijfSoort) {
         this.verblijfSoort = verblijfSoort;
     }
 }
