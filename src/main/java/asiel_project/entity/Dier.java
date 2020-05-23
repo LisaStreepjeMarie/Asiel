@@ -1,13 +1,12 @@
 package asiel_project.entity;
 
 
-import asiel_project.Enums.Soort;
+import asiel_project.enums.Soort;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table
@@ -24,7 +23,7 @@ public class Dier implements Serializable {
     private String naam;
 
     @NotNull
-    private Soort soort;
+    private String soort;
 
     @ManyToOne
     private Verblijf verblijf;
@@ -77,11 +76,11 @@ public class Dier implements Serializable {
         this.dierId = dierId;
     }
 
-    public void setSoort(Soort soort) {
+    public void setSoort(String soort) {
         this.soort = soort;
     }
 
-    public Soort getSoort() {
+    public String getSoort() {
         return soort;
     }
 }

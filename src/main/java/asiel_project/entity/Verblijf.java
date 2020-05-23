@@ -1,6 +1,6 @@
 package asiel_project.entity;
 
-import asiel_project.Enums.Soort;
+import asiel_project.enums.Soort;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -32,16 +32,17 @@ public class Verblijf implements Serializable {
 
     private Integer plekkenBezet;
 
-    private Soort verblijfSoort;
+
+    private String verblijfSoort;
 
     public Verblijf() {
     }
 
-    public Soort getVerblijfSoort() {
+    public String getVerblijfSoort() {
         return verblijfSoort;
     }
 
-    public void setVerblijfSoort(Soort verblijfSoort) {
+    public void setVerblijfSoort(String verblijfSoort) {
         this.verblijfSoort = verblijfSoort;
     }
 

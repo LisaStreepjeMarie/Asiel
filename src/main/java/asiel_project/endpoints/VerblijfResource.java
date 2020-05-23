@@ -4,6 +4,8 @@ import asiel_project.dao.DierDAO;
 import asiel_project.dao.VerblijfDAO;
 import asiel_project.entity.Verblijf;
 import asiel_project.entity.Dier;
+import asiel_project.mapper.DierMapper;
+import org.mapstruct.factory.Mappers;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

@@ -4,6 +4,8 @@ import asiel_project.dao.DierDAO;
 import asiel_project.dao.VerblijfDAO;
 import asiel_project.entity.Dier;
 import asiel_project.entity.Verblijf;
+import asiel_project.mapper.DierMapper;
+import org.mapstruct.factory.Mappers;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -16,6 +18,8 @@ import java.util.logging.Logger;
 
 @Path("/dieren")
 public class DierResource {
+
+    private DierMapper diermapper = Mappers.getMapper(DierMapper.class);
 
     @Inject
     DierDAO dierDAO;
@@ -36,7 +40,7 @@ public class DierResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDier(@PathParam("id") Integer id) {
-        return Response.ok().entity(dierDAO.findById(id)).build();
+        return Response.ok().entity(diermapper.INSTANCE.toDTO(dierDAO.findById(id))).build();
     }
 
 

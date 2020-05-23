@@ -8,6 +8,7 @@
 
         <class>asiel_project.entity.Dier</class>
         <class>asiel_project.entity.Verblijf</class>
+        <class>asiel_project.enums.Soort</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://db:3306/cursus?useSSL=false" />
             <property name="javax.persistence.jdbc.user" value="user" />
