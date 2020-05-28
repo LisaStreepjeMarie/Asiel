@@ -10,9 +10,25 @@ public class DierDTO implements Serializable {
 
     private String naam;
 
-    private Soort soort;
+    private String soort;
+
+    private String verblijfNaam;
+
+    private String datumErin;
+
+    private String datumBuiten;
+
+    private Integer verblijfId;
 
     public DierDTO() {
+    }
+
+    public String getVerblijfNaam() {
+        return verblijfNaam;
+    }
+
+    public void setVerblijfNaam(String verblijfNaam) {
+        this.verblijfNaam = verblijfNaam;
     }
 
     public Integer getDierId() {
@@ -31,12 +47,35 @@ public class DierDTO implements Serializable {
         this.naam = naam;
     }
 
-    public Soort getSoort() {
+    public String getSoort() {
         return soort;
     }
 
-    public void setSoort(Soort soort) {
+    public void setSoort(String soort) {
         this.soort = soort;
     }
 
+    public Integer getVerblijfId() {
+        return verblijfId;
+    }
+
+    public void setVerblijfId(Integer verblijfId) {
+        this.verblijfId = verblijfId;
+    }
+
+    public String getDatumErin() {
+        return datumErin;
+    }
+
+    public void setDatumErin(String datumErin) {
+        this.datumErin = datumErin;
+    }
+
+    public String getDatumBuiten() {
+        return datumBuiten;
+    }
+
+    public void setDatumBuiten(String datumBuiten) {
+        this.datumBuiten = datumBuiten;
+    }
 }

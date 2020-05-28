@@ -1,8 +1,5 @@
 package asiel_project.entity;
 
-import asiel_project.enums.Soort;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,10 +26,20 @@ public class Verblijf implements Serializable {
 
     private Integer plekkenTotaal;
 
-    private Integer plekkenBezet;
-
-
     private String verblijfSoort;
+
+    private Boolean verblijfVol;
+
+    public Boolean getVerblijfVol() {
+        if (this.dieren != null){
+            return this.dieren.size() == this.plekkenTotaal;
+        }
+        return false;
+    }
+
+    public void setVerblijfVol(Boolean verblijfVol) {
+        verblijfVol = verblijfVol;
+    }
 
     public Verblijf() {
     }
@@ -43,11 +50,6 @@ public class Verblijf implements Serializable {
 
     public void setVerblijfSoort(String verblijfSoort) {
         this.verblijfSoort = verblijfSoort;
-    }
-
-    public Verblijf(Integer verblijfId, String naam, Integer plekkenTotaal) {
-        this.verblijfId = verblijfId;
-        this.naam = naam;
     }
 
     public Integer getVerblijfId() {
@@ -82,11 +84,4 @@ public class Verblijf implements Serializable {
         this.plekkenTotaal = plekkenTotaal;
     }
 
-    public Integer getPlekkenBezet() {
-        return plekkenBezet;
-    }
-
-    public void setPlekkenBezet(Integer plekkenBezet) {
-        this.plekkenBezet += plekkenBezet;
-    }
 }

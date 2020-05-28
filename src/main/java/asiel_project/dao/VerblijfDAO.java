@@ -27,7 +27,6 @@ public class VerblijfDAO {
     }
 
     public void create(Verblijf verblijf) {
-        verblijf.setPlekkenBezet(0);
         entityManager.persist(verblijf);
     }
 

@@ -2,6 +2,7 @@ package asiel_project.dto;
 
 import asiel_project.enums.Soort;
 import asiel_project.entity.Dier;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,13 +13,13 @@ public class VerblijfDTO implements Serializable {
 
     private String naam;
 
-    private List<DierDTO> dieren;
+    private List<VerblijfDierenDTO> dieren;
 
     private Integer plekkenTotaal;
 
-    private Integer plekkenBezet;
-
     private String verblijfSoort;
+
+    private Boolean verblijfVol;
 
     public VerblijfDTO() {
     }
@@ -39,11 +40,11 @@ public class VerblijfDTO implements Serializable {
         this.naam = naam;
     }
 
-    public List<DierDTO> getDieren() {
+    public List<VerblijfDierenDTO> getDieren() {
         return dieren;
     }
 
-    public void setDieren(List<DierDTO> dieren) {
+    public void setDieren(List<VerblijfDierenDTO> dieren) {
         this.dieren = dieren;
     }
 
@@ -53,14 +54,6 @@ public class VerblijfDTO implements Serializable {
 
     public void setPlekkenTotaal(Integer plekkenTotaal) {
         this.plekkenTotaal = plekkenTotaal;
-    }
-
-    public Integer getPlekkenBezet() {
-        return plekkenBezet;
-    }
-
-    public void setPlekkenBezet(Integer plekkenBezet) {
-        this.plekkenBezet = plekkenBezet;
     }
 
     public String getVerblijfSoort() {

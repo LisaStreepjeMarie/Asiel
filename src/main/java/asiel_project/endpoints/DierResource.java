@@ -2,6 +2,7 @@ package asiel_project.endpoints;
 
 import asiel_project.dao.DierDAO;
 import asiel_project.dao.VerblijfDAO;
+import asiel_project.dto.DierDTO;
 import asiel_project.entity.Dier;
 import asiel_project.entity.Verblijf;
 import asiel_project.mapper.DierMapper;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("/dieren")
 public class DierResource {
@@ -32,7 +34,9 @@ public class DierResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response ok(){
-        List<Dier> result = dierDAO.getAll();
+        List<DierDTO> result = dierDAO.getAll().stream()
+                .map(x -> diermapper.toDierDto(x))
+                .collect(Collectors.toList());
         return Response.ok().entity(result).build();
     }
 
@@ -40,7 +44,7 @@ public class DierResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDier(@PathParam("id") Integer id) {
-        return Response.ok().entity(diermapper.INSTANCE.toDTO(dierDAO.findById(id))).build();
+        return Response.ok().entity(diermapper.INSTANCE.toDierDto(dierDAO.findById(id))).build();
     }
 
 
@@ -52,39 +56,35 @@ public class DierResource {
         dier.setDatumBuiten(LocalDate.now().toString());
 
         if(dier.getVerblijf() != null) {
-            dier.getVerblijf().setPlekkenBezet(-1);
             verblijfDAO.update(dier.getVerblijf());
             dier.setVerblijf(null);
         }
 
         dierDAO.update(dier);
-        return Response.ok().entity(dier).build();
+        return Response.ok().entity(diermapper.toDierDto(dier)).build();
     }
 
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateContact(@PathParam("id") Integer id, Dier c) {
+    public Response dierVerblijf(@PathParam("id") Integer verblijfId, DierDTO dierDTO) {
+        Dier dier = dierDAO.findById(dierDTO.getDierId());
+        Verblijf verblijf = verblijfDAO.findById(verblijfId);
 
-    verblijfDAO.getAll().stream()
-            .filter(x -> x.getVerblijfId().equals(id))
-            .forEach(x -> {
-                x.setPlekkenBezet(1);
-                c.setVerblijf(x);
-                verblijfDAO.update(x);
-                dierDAO.update(c);
-            });
+        dier.setVerblijf(verblijf);
+
+        verblijfDAO.update(verblijf);
+        dierDAO.update(dier);
 
         return Response.ok().build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteContact(@PathParam("id") Integer id) {
+    public Response deleteDier(@PathParam("id") Integer id) {
         Dier dier = dierDAO.findById(id);
 
         if(dier.getVerblijf() != null){
-            dier.getVerblijf().setPlekkenBezet(-1);
             verblijfDAO.update(dier.getVerblijf());
         }
 
@@ -95,8 +95,8 @@ public class DierResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addContact(@Valid Dier nieuwDier) {
+    public Response voegDierToe(@Valid Dier nieuwDier) {
         dierDAO.create(nieuwDier);
-        return Response.ok().entity(nieuwDier).build();
+        return Response.ok().entity(diermapper.toDierDto(nieuwDier)).build();
     }
 }
