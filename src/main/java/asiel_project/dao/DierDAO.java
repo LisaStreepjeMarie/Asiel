@@ -1,7 +1,7 @@
 package asiel_project.dao;
 
 import asiel_project.entity.Dier;
-import asiel_project.service.VerblijfVolException;
+import asiel_project.exception.VerblijfVolException;
 
 
 import javax.ejb.Stateless;
@@ -27,10 +27,10 @@ public class DierDAO {
         entityManager.merge(todo);
     }
 
-    public void create(Dier nieuwdier) {
-        if (nieuwdier.getVerblijf().getVerblijfVol())
-            throw new VerblijfVolException("Could not greet");
-
+    public void create(Dier nieuwdier) throws VerblijfVolException {
+        if (nieuwdier.getVerblijf().getVerblijfVol()) {
+            throw new VerblijfVolException("VOL is VOL");
+        }
         nieuwdier.setDatumErin(LocalDate.now().toString());
         entityManager.persist(nieuwdier);
     }

@@ -1,13 +1,16 @@
 package asiel_project.endpoints;
 
 import asiel_project.dao.DierDAO;
+import asiel_project.dao.DierRepository;
 import asiel_project.dao.VerblijfDAO;
 import asiel_project.dto.DierDTO;
 import asiel_project.entity.Dier;
 import asiel_project.entity.Verblijf;
+import asiel_project.exception.VerblijfVolException;
 import asiel_project.mapper.DierMapper;
 import org.mapstruct.factory.Mappers;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@Stateless
 @Path("/dieren")
 public class DierResource {
 
@@ -25,6 +29,9 @@ public class DierResource {
 
     @Inject
     DierDAO dierDAO;
+
+    @Inject
+    private DierRepository dierRepository;
 
     @Inject
     VerblijfDAO verblijfDAO;
@@ -44,7 +51,7 @@ public class DierResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDier(@PathParam("id") Integer id) {
-        return Response.ok().entity(diermapper.INSTANCE.toDierDto(dierDAO.findById(id))).build();
+        return Response.ok().entity(diermapper.INSTANCE.toDierDto(dierRepository.getOne(id))).build();
     }
 
 
@@ -95,8 +102,13 @@ public class DierResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response voegDierToe(@Valid Dier nieuwDier) {
-        dierDAO.create(nieuwDier);
-        return Response.ok().entity(diermapper.toDierDto(nieuwDier)).build();
+    public Response voegDierToe(@Valid Dier nieuwDier) throws VerblijfVolException {
+        nieuwDier.setVerblijf(verblijfDAO.findById(nieuwDier.getVerblijf().getVerblijfId()));
+
+
+            dierDAO.create(nieuwDier);
+            return Response.ok().entity(diermapper.toDierDto(nieuwDier)).build();
+
+
     }
 }

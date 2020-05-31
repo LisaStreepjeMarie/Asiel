@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-05-27T21:01:37+0200",
+    date = "2020-05-31T15:59:53+0200",
     comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_241 (Oracle Corporation)"
 )
 public class VerblijfMapperImpl implements VerblijfMapper {

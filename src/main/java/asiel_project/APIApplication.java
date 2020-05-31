@@ -2,6 +2,8 @@ package asiel_project;
 
 import asiel_project.endpoints.DierResource;
 import asiel_project.endpoints.VerblijfResource;
+import asiel_project.exception.VerblijfVolMapper;
+import asiel_project.mapper.VerblijfMapper;
 import asiel_project.service.AccessControlResponseFilter;
 
 import javax.ws.rs.ApplicationPath;
@@ -17,6 +19,8 @@ public class APIApplication extends Application {
         Set<Class<?>> set = new HashSet<>();
         set.add( DierResource.class );
         set.add( VerblijfResource.class );
+        set.add( VerblijfVolMapper.class );
+
         return set;
     }
 }
